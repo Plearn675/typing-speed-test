@@ -18,7 +18,7 @@ root.geometry("600x400")
 
 # --- Widgets ---
 # Instructions
-label = tk.Label(root, text="Type below and test your speed!", font=("Arial", 14))
+label = tk.Label(root, text="Type below and test your speed!", font=("Arial", 20))
 label.pack(pady=10)
 
 # Text box
@@ -26,16 +26,34 @@ text_box = tk.Text(root, height=8, width=50, font=("Arial", 12))
 text_box.pack(pady=10)
 
 # Timer label
-timer_label = tk.Label(root, text="Time: 60", font=("Arial", 14))
-timer_label.pack(pady=5)
+timer_label = tk.Label(root, text="Time: 60", font=("Arial", 20))
+timer_label.pack(pady=20)
 
-# Start button
-start_button = tk.Button(root, text="Start", font=("Arial", 12))
-start_button.pack(pady=5)
 
 # Result box
-result_label = tk.Label(root, text="Result: 0 words", font=("Arial", 14))
+result_label = tk.Label(root, text="Result: 0 words", font=("Arial", 18))
 result_label.pack(pady=10)
+
+
+# --- Functions ---
+def countdown(time_left):
+    if time_left > 0:
+        timer_label.config(text=f"Time: {time_left}")
+        root.after(1000, countdown, time_left - 1)
+    else:
+        timer_label.config(text="Time's up!")
+        user_text = text_box.get("1.0", "end-1c")
+        word_count = len(user_text.split())
+        result_label.config(text=f"Result: {word_count} words")
+
+# Start button
+start_button = tk.Button(root, text="Start", font=("Arial", 18), command=lambda: countdown(60))
+start_button.pack()
+
+# SStop button
+stop_button = tk.Button(root, text="Stop", font=("Arial", 18), command=lambda: countdown(60))
+stop_button.pack()
+
 
 # --- Run App ---
 root.mainloop()
