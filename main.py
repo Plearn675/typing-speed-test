@@ -27,6 +27,7 @@ label.pack(pady=10)
 # Text box
 text_box = tk.Text(root, height=8, width=50, font=("Arial", 12))
 text_box.pack(pady=10)
+text_box.config(state="disabled")
 
 # Timer label
 timer_label = tk.Label(root, text="Time: 60", font=("Arial", 20))
@@ -51,11 +52,14 @@ def countdown(time_left):
         result_label.config(text=f"Result: {word_count} words")
         start_button.config(state="normal")  # re-enable Start button
         stop_button.config(state="disabled")  # disable Stop button
+        text_box.delete("1.0", "end")  # 🔹 clear text when time’s up
+        text_box.config(state="disabled")
 
 
 def start_timer():
     start_button.config(state="disabled")  # disable Start button
     stop_button.config(state="normal")  # enable Stop button
+    text_box.config(state="normal")
     countdown(60)
 
 def stop_timer():
@@ -65,7 +69,10 @@ def stop_timer():
         root.after_cancel(timer_job)  # stop scheduled countdown
         timer_job = None
     timer_label.config(text="Time: 60")  # reset display
+    text_box.delete("1.0", "end")  # 🔹 clear text when time’s up
     start_button.config(state="normal")  # re-enable Start button
+    text_box.config(state="disabled")
+
 
 
 # Start button
